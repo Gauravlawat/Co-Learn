@@ -10,7 +10,7 @@ const server = http.createServer(app);
 
 // This tells your server to only accept requests from your live Vercel site
 app.use(cors({
-    origin: 'https://co-learn-nine.vercel.app'
+    origin: 'https://co-learn-nine.vercel.app' 
 }));
 
 
