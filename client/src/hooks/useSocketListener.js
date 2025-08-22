@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import io from 'socket.io-client';
 
-export const socket = io('http://localhost:5000');
+export const socket = io('https://co-learn.onrender.com');
 
 export const useSocketListener = (eventName) => {
     const [data, setData] = useState(null);
