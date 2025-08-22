@@ -8,17 +8,13 @@ const { Server } = require("socket.io");
 const app = express();
 const server = http.createServer(app);
 
-// This tells your server to only accept requests from your live Vercel site
-app.use(cors({
-    origin: 'https://co-learn-nine.vercel.app' 
-}));
-
+const corsOptions = {
+    origin: 'https://co-learn-nine.vercel.app',
+    methods: ['GET', 'POST'] // You can add other methods like PUT, DELETE if needed
+};
 
 const io = new Server(server, {
-    cors: {
-        origin: process.env.CLIENT_URL,
-        methods: ['GET', 'POST']
-    }
+    cors: corsOptions
 });
 
 // Middleware to make 'io' accessible in our routes
@@ -27,8 +23,9 @@ app.use((req, res, next) => {
     next();
 });
 
+
 // Core Middleware
-app.use(cors({ origin: process.env.CLIENT_URL }));
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // API Routes
