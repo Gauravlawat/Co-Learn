@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import io from 'socket.io-client';
 
-const socket = io('http://localhost:5000');
+export const socket = io('http://localhost:5000');
 
 export const useSocketListener = (eventName) => {
     const [data, setData] = useState(null);

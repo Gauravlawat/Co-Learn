@@ -31,10 +31,33 @@ app.use('/api/sessions', require('./routes/sessionRoutes'));
 
 // Socket.IO Connection Handler
 io.on('connection', (socket) => {
-  console.log('>>> A user connected:', socket.id);
-  socket.on('disconnect', () => {
-    console.log('--- A user disconnected:', socket.id);
-  });
+    console.log('>>> A user connected:', socket.id);
+
+    // When a client tells us they've joined a session page
+    socket.on('joinRoom', (sessionId) => {
+        socket.join(sessionId);
+        console.log(`User ${socket.id} joined room ${sessionId}`);
+    });
+
+    socket.on('sendMessage', ({ sessionId, message, user }) => {
+
+        console.log('--- Message Received on Server ---');
+        console.log('Session ID:', sessionId);
+        console.log('User who sent message:', user); // This is the most important log!
+        console.log('Message Text:', message);
+        console.log('---------------------------------');
+
+        // Broadcast the message ONLY to clients in that specific room
+        io.to(sessionId).emit('newMessage', {
+            user: user,
+            text: message,
+            timestamp: new Date()
+        });
+    });
+
+    socket.on('disconnect', () => {
+        console.log('--- A user disconnected:', socket.id);
+    });
 });
 
 const PORT = process.env.PORT || 5000;

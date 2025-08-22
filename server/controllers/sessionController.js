@@ -46,3 +46,42 @@ exports.getSessionById = async (req, res) => {
         res.status(500).send('Server Error');
     }
 };
+
+exports.joinSession = async (req, res) => {
+    try {
+        const session = await Session.findById(req.params.id);
+
+        if (!session) {
+            return res.status(404).json({ msg: 'Session not found' });
+        }
+
+        // Check if the user is the host
+        if (session.host.equals(req.user.id)) {
+            return res.status(400).json({ msg: 'Host cannot join their own session as a participant' });
+        }
+
+        // Check if the user is already a participant
+        if (session.participants.some(participant => participant.equals(req.user.id))) {
+            return res.status(400).json({ msg: 'You are already in this session' });
+        }
+        
+        // Add the new user to the participants array
+        session.participants.push(req.user.id);
+
+        await session.save();
+
+        // Get the fully updated session data to send back
+        const populatedSession = await Session.findById(req.params.id)
+            .populate('host', 'name')
+            .populate('participants', 'name');
+
+        // Broadcast the real-time update to everyone
+        req.io.emit('sessionUpdated', populatedSession);
+
+        res.json(populatedSession);
+
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+};

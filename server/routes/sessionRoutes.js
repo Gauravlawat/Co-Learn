@@ -1,13 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const { createSession, getSessions, getSessionById } = require('../controllers/sessionController');
+const { createSession, getSessions, getSessionById, joinSession } = require('../controllers/sessionController');
 const authMiddleware = require('../middleware/authMiddleware');
 
 // @route   POST api/sessions
 // @desc    Create a session
 // @access  Private
 router.post('/', authMiddleware, createSession);
-
+router.post('/:id/join', authMiddleware, joinSession);
 // @route   GET api/sessions
 // @desc    Get all sessions
 // @access  Public

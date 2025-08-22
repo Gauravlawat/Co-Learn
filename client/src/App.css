@@ -57,3 +57,47 @@ form {
   width: 100%;
   max-width: 400px;
 }
+
+.chat-container {
+  margin-top: 2rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 1rem;
+  max-width: 600px;
+}
+
+.chat-messages {
+  height: 300px;
+  overflow-y: auto;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-message {
+  margin-bottom: 0.5rem;
+  text-align: left;
+}
+
+.chat-form {
+  display: flex;
+}
+
+.chat-form input {
+  flex-grow: 1;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 0.5rem;
+}
+
+.chat-form button {
+  margin-left: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: #1abc9c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
