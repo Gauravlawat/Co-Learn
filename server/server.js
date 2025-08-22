@@ -8,6 +8,14 @@ const { Server } = require("socket.io");
 const app = express();
 const server = http.createServer(app);
 
+const cors = require('cors');
+
+// This tells your server to only accept requests from your live Vercel site
+app.use(cors({
+    origin: 'https://co-learn-nine.vercel.app'
+}));
+
+
 const io = new Server(server, {
     cors: {
         origin: process.env.CLIENT_URL,
